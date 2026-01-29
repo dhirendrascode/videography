@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jai Prakash Studio | Cloud Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;600&display=swap');
+        :root { --gold: #D4AF37; --dark-bg: #0a0a0a; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--dark-bg); color: #fff; scroll-behavior: smooth; }
+        .gold-text { background: linear-gradient(to right, #D4AF37, #FBE7A1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Cinzel', serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(212, 175, 55, 0.1); transition: 0.4s; }
+        .glass-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .admin-view { display: none; background: #f4f7fe; color: #1e293b; min-height: 100vh; }
+        .loader { border-top-color: var(--gold); animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="client-ui">
+        <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-lg border-b border-white/10 px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl gold-text font-black tracking-tighter uppercase">JAI PRAKASH STUDIO</h1>
+            <button onclick="openAdmin()" class="bg-white/5 border border-white/20 text-[9px] px-4 py-2 rounded-full hover:bg-white hover:text-black transition">STAFF LOGIN</button>
+        </nav>
+
+        <section class="h-[60vh] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2000')] bg-cover bg-center opacity-40"></div>
+            <div class="relative z-10">
+                <span class="text-yellow-500 text-xs font-bold tracking-[5px] uppercase">Supaul, Bihar</span>
+                <h2 class="text-4xl md:text-7xl font-bold mb-4 gold-text uppercase"> JAY PRAKASH HD &4K VIDEOGRAPHY
+                <p class="text-gray-400 max-w-lg mx-auto text-sm leading-relaxed">Book your date via WhatsApp and save your precious moments.</p>
+            </div>
+        </section>
+
+        <section id="booking" class="py-20 px-6">
+            <div class="max-w-6xl mx-auto glass-card rounded-[50px] overflow-hidden shadow-2xl grid md:grid-cols-3 border-white/5">
+                
+                <div class="p-10 border-r border-white/5 bg-white/5">
+                    <h4 class="text-yellow-500 font-bold mb-8 flex items-center gap-2 uppercase text-sm"><i class="fas fa-camera"></i> 01. Select Service</h4>
+                    <div class="space-y-4">
+                        <label class="block glass-card p-5 rounded-2xl cursor-pointer hover:bg-white/5">
+                            <input type="radio" name="service" value="Drone Camera" class="mr-3 accent-yellow-500" onclick="updatePriceDisplay('Drone Camera', 5000)"> Standard Drone Camera
+                        </label>
+                        <label class="block glass-card p-5 rounded-2xl cursor-pointer hover:bg-white/5">
+                            <input type="radio" name="service" value="4K Video Camera" class="mr-3 accent-yellow-500" onclick="updatePriceDisplay('4K Video Camera', 4000)"> Royal 4K Video Camera
+                        </label>
+                        <label class="block glass-card p-5 rounded-2xl cursor-pointer hover:bg-white/5">
+                            <input type="radio" name="service" value="DSLR Camera" class="mr-3 accent-yellow-500" onclick="updatePriceDisplay('DSLR Camera', 4000)"> Standard DSLR Camera
+                        </label>
+                        <label class="block glass-card p-5 rounded-2xl cursor-pointer hover:bg-white/5">
+                            <input type="radio" name="service" value="Karizma Album" class="mr-3 accent-yellow-500" onclick="updatePriceDisplay('Karizma Album', 6000)"> Karizma Album
+                        </label>
+                    </div>
+                </div>
+
+                <div class="p-10 border-r border-white/5">
+                    <h4 class="text-yellow-500 font-bold mb-8 flex items-center gap-2 uppercase text-sm"><i class="fas fa-user-edit"></i> 02. Details</h4>
+                    <div class="space-y-6">
+                        <input type="text" id="cust_name" placeholder="आपका नाम" class="w-full bg-transparent border-b border-white/20 py-3 outline-none focus:border-yellow-500 transition text-lg">
+                        <input type="date" id="cust_date" class="w-full bg-transparent border-b border-white/20 py-3 outline-none focus:border-yellow-500 text-gray-400">
+                        <input type="text" id="cust_phone" placeholder="मोबाइल नंबर" class="w-full bg-transparent border-b border-white/20 py-3 outline-none focus:border-yellow-500 text-lg">
+                    </div>
+                </div>
+
+                <div class="p-10 bg-yellow-600/5 flex flex-col items-center justify-center text-center">
+                    <div id="price-tag-area" class="mb-8">
+                        <p id="selected-svc-name" class="text-[10px] tracking-widest text-gray-400 mb-1 uppercase">Price Details</p>
+                        <div id="total-price-display" class="text-4xl font-black gold-text mb-2">₹0</div>
+                        <p class="text-[10px] text-gray-500 mt-4 italic">Note: No online payment. Contact us on WhatsApp for booking confirmation.</p>
+                    </div>
+                    
+                    <button onclick="processBooking()" id="submitBtn" class="w-full py-5 bg-green-600 text-white font-black rounded-2xl shadow-xl hover:bg-green-500 transition uppercase text-xs tracking-widest flex items-center justify-center gap-2">
+                        <i class="fab fa-whatsapp text-lg"></i> Book via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-12 text-center text-gray-600">
+            <p class="text-sm">© 2026 JAI PRAKASH STUDIO - Dagmara Piprahi, Supaul</p>
+            <div class="mt-4 flex justify-center gap-6">
+                <a href="https://www.facebook.com/jay.prakash.712206" target="_blank" class="hover:text-blue-600 transition-all text-xl"><i class="fab fa-facebook"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <div id="admin-ui" class="admin-view p-6 md:p-12">
+        <div class="max-w-6xl mx-auto">
+            <header class="flex justify-between items-end mb-12">
+                <div><h2 class="text-3xl font-black">ADMIN <span class="text-blue-600">PANEL</span></h2></div>
+                <button onclick="location.reload()" class="bg-slate-800 text-white px-6 py-2 rounded-full font-bold">LOGOUT</button>
+            </header>
+            <div class="bg-white rounded-[30px] shadow-xl overflow-hidden p-6">
+                <table class="w-full text-left">
+                    <thead class="text-slate-400 text-[10px] uppercase"><tr><th class="p-4">Client</th><th class="p-4">Date</th><th class="p-4">Service</th><th class="p-4">Status</th></tr></thead>
+                    <tbody id="admin-data-list"></tbody>
+                </table>
+                <div id="admin-loader" class="text-center py-10">Loading Cloud Data...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedService = "";
+        const CLOUD_URL = 'https://script.google.com/macros/s/AKfycbzghyB23zes8qes4KG6UjHMc6xy38aOEGJTK7_GqxqOdoeBy3SLkd3WYfm5PdZv98QL/exec';
+
+        // Price Update Function
+        function updatePriceDisplay(name, price) {
+            selectedService = name;
+            document.getElementById('selected-svc-name').innerText = name;
+            document.getElementById('total-price-display').innerText = "₹" + price.toLocaleString();
+            
+            const display = document.getElementById('total-price-display');
+            display.style.transform = "scale(1.1)";
+            setTimeout(() => { display.style.transform = "scale(1)"; }, 200);
+        }
+
+        // WhatsApp & Cloud Booking
+        async function processBooking() {
+            const name = document.getElementById('cust_name').value;
+            const date = document.getElementById('cust_date').value;
+            const phone = document.getElementById('cust_phone').value;
+            const btn = document.getElementById('submitBtn');
+
+            if(!name || !date || !phone || !selectedService) {
+                alert("कृपया पूरी जानकारी भरें!");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> SAVING DATA...`;
+
+            const payload = { name, date, service: selectedService, phone };
+
+            try {
+                // Save to Google Cloud
+                await fetch(CLOUD_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    body: JSON.stringify(payload)
+                });
+
+                // Generate WhatsApp Link
+                const msg = `*NEW BOOKING JAI PRAKASH STUDIO*%0A------------------%0A*Client:* ${name}%0A*Date:* ${date}%0A*Phone:* ${phone}%0A*Service:* ${selectedService}%0A------------------%0A_Please confirm my booking._`;
+                
+                setTimeout(() => {
+                    window.open(`https://wa.me/919102084493?text=${msg}`, '_blank');
+                    location.reload();
+                }, 1000);
+
+            } catch (err) {
+                console.error(err);
+                alert("Server Error. Redirecting to WhatsApp...");
+                window.open(`https://wa.me/919102084493?text=Emergency Booking: ${name}`, '_blank');
+            }
+        }
+
+        function openAdmin() {
+            const p = prompt("Admin Password:");
+            if(p === "Jp@123") {
+                document.getElementById('client-ui').style.display = 'none';
+                document.getElementById('admin-ui').style.display = 'block';
+                fetchFromServer();
+            } else { alert("Access Denied!"); }
+        }
+
+        async function fetchFromServer() {
+            const list = document.getElementById('admin-data-list');
+            const loader = document.getElementById('admin-loader');
+            try {
+                const response = await fetch(CLOUD_URL);
+                const data = await response.json();
+                loader.style.display = "none";
+                list.innerHTML = data.map(b => `
+                    <tr class="border-b">
+                        <td class="p-4 font-bold uppercase text-[10px]">${b.name}</td>
+                        <td class="p-4 text-xs">${b.date}</td>
+                        <td class="p-4"><span class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-[9px] font-bold">${b.service}</span></td>
+                        <td class="p-4 text-green-500 text-[9px] font-bold italic">Cloud Saved</td>
+                    </tr>
+                `).reverse().join('');
+            } catch (e) { loader.innerText = "Error loading data."; }
+        }
+    </script>
+</body>
+</html>
