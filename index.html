@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jai Prakash Studio | Cloud Booking</title>
+    <title>Jai Prakash Studio | Professional Cloud Booking</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -12,10 +12,13 @@
         body { font-family: 'Montserrat', sans-serif; background-color: var(--dark-bg); color: #fff; scroll-behavior: smooth; }
         .gold-text { background: linear-gradient(to right, #D4AF37, #FBE7A1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'Cinzel', serif; }
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(212, 175, 55, 0.1); transition: 0.4s; }
-        .glass-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .admin-view { display: none; background: #f4f7fe; color: #1e293b; min-height: 100vh; }
-        .loader { border-top-color: var(--gold); animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .admin-view { display: none; background: #f8fafc; color: #0f172a; min-height: 100vh; }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { position: absolute; left: 0; top: 0; width: 100%; color: black !important; background: white !important; padding: 40px; }
+        }
     </style>
 </head>
 <body>
@@ -23,214 +26,171 @@
     <div id="client-ui">
         <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-lg border-b border-white/10 px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl md:text-2xl gold-text font-black tracking-tighter uppercase">JAI PRAKASH STUDIO</h1>
-            <button onclick="openAdmin()" class="bg-white/5 border border-white/20 text-[9px] px-4 py-2 rounded-full hover:bg-white hover:text-black transition">STAFF LOGIN</button>
+            <button onclick="openAdmin()" class="bg-white/5 border border-white/20 text-[10px] px-4 py-2 rounded-full hover:bg-white hover:text-black transition">STAFF LOGIN</button>
         </nav>
 
-        <section class="h-[60vh] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=2000')] bg-cover bg-center opacity-40"></div>
+        <section class="h-[45vh] flex flex-col items-center justify-center text-center px-4 relative overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1638')] bg-cover bg-center opacity-30"></div>
             <div class="relative z-10">
-                <span class="text-yellow-500 text-xs font-bold tracking-[5px] uppercase">Supaul, Bihar</span>
-                <h2 class="text-4xl md:text-7xl font-bold mb-4 gold-text uppercase"> JAY PRAKASH HD &4K VIDEOGRAPHY
-                <p class="text-gray-400 max-w-lg mx-auto text-sm leading-relaxed">Book your date via WhatsApp and save your precious moments.</p>
+                <span class="text-yellow-500 text-xs font-bold tracking-[5px] uppercase mb-2 block">Dagmara Piprahi, Supaul</span>
+                <h2 class="text-4xl md:text-7xl font-bold gold-text uppercase leading-none">JAY PRAKASH HD &4K VIDEOGRAPHY</h2>
             </div>
-       </section>
+        </section>
 
-        <section id="booking" class="py-20 px-6">
-            <div class="max-w-6xl mx-auto glass-card rounded-[50px] overflow-hidden shadow-2xl grid md:grid-cols-3 border-white/5">
-                
-                <div class="p-10 border-r border-white/5 bg-white/5">
-                    <h4 class="text-yellow-500 font-bold mb-8 flex items-center gap-2 uppercase text-sm"><i class="fas fa-camera"></i> 01. Select Service</h4>
+        <section id="booking" class="py-10 px-6 -mt-10">
+            <div class="max-w-6xl mx-auto glass-card rounded-[40px] overflow-hidden grid md:grid-cols-3 shadow-2xl">
+                <div class="p-8 border-r border-white/5 bg-white/5">
+                    <h4 class="text-yellow-500 font-bold mb-6 text-sm uppercase">01. Choose Service</h4>
+                    <div class="space-y-3">
+                        <label class="block p-4 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5"><input type="radio" name="service" onclick="updatePriceDisplay('Drone Camera', 5000)"> Drone Shoot</label>
+                        <label class="block p-4 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5"><input type="radio" name="service" onclick="updatePriceDisplay('4K Video', 4000)"> 4K Video</label>
+                        <label class="block p-4 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5"><input type="radio" name="service" onclick="updatePriceDisplay('DSLR Photo', 4000)"> DSLR Photo</label>
+                        <label class="block p-4 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5"><input type="radio" name="service" onclick="updatePriceDisplay('Karizma Album', 6000)"> Karizma Album</label>
+                    </div>
+                </div>
+
+                <div class="p-8 border-r border-white/5">
+                    <h4 class="text-yellow-500 font-bold mb-6 text-sm uppercase">02. Booking Details</h4>
                     <div class="space-y-4">
-                        <label class="block glass-card p-5 rounded-2xl cursor-pointer hover:bg-white/5">
-                            <input type="radio" name="service" value="Drone Camera" class="mr-3 accent-yellow-500" onclick="updatePriceDisplay('Drone Camera', 5000)"> Standard Drone Camera
-                        </label>
-                        <label class="block glass-card p-5 rounded-2xl cursor-pointer hover:bg-white/5">
-                            <input type="radio" name="service" value="4K Video Camera" class="mr-3 accent-yellow-500" onclick="updatePriceDisplay('4K Video Camera', 4000)"> Royal 4K Video Camera
-                        </label>
-                        <label class="block glass-card p-5 rounded-2xl cursor-pointer hover:bg-white/5">
-                            <input type="radio" name="service" value="DSLR Camera" class="mr-3 accent-yellow-500" onclick="updatePriceDisplay('DSLR Camera', 4000)"> Standard DSLR Camera
-                        </label>
-                        <label class="block glass-card p-5 rounded-2xl cursor-pointer hover:bg-white/5">
-                            <input type="radio" name="service" value="Karizma Album" class="mr-3 accent-yellow-500" onclick="updatePriceDisplay('Karizma Album', 6000)"> Karizma Album
-                        </label>
+                        <input type="text" id="cust_name" placeholder="ग्राहक का नाम" class="w-full bg-transparent border-b border-white/20 py-2 outline-none focus:border-yellow-500 transition">
+                        <input type="date" id="cust_date" class="w-full bg-transparent border-b border-white/20 py-2 outline-none focus:border-yellow-500">
+                        <input type="text" id="cust_phone" placeholder="मोबाइल नंबर" class="w-full bg-transparent border-b border-white/20 py-2 outline-none focus:border-yellow-500">
+                        <input type="text" id="cust_address" placeholder="पूरा पता (Address)" class="w-full bg-transparent border-b border-white/20 py-2 outline-none focus:border-yellow-500">
                     </div>
                 </div>
 
-                <div class="p-10 border-r border-white/5">
-                    <h4 class="text-yellow-500 font-bold mb-8 flex items-center gap-2 uppercase text-sm"><i class="fas fa-user-edit"></i> 02. Details</h4>
-                    <div class="space-y-6">
-                        <input type="text" id="cust_name" placeholder="आपका नाम" class="w-full bg-transparent border-b border-white/20 py-3 outline-none focus:border-yellow-500 transition text-lg">
-                        <input type="date" id="cust_date" class="w-full bg-transparent border-b border-white/20 py-3 outline-none focus:border-yellow-500 text-gray-400">
-                        <input type="text" id="cust_phone" placeholder="मोबाइल नंबर" class="w-full bg-transparent border-b border-white/20 py-3 outline-none focus:border-yellow-500 text-lg">
-                    </div>
-                </div>
-
-                <div class="p-10 bg-yellow-600/5 flex flex-col items-center justify-center text-center">
-                    <div id="price-tag-area" class="mb-8">
-                        <p id="selected-svc-name" class="text-[10px] tracking-widest text-gray-400 mb-1 uppercase">Price Details</p>
-                        <div id="total-price-display" class="text-4xl font-black gold-text mb-2">₹0</div>
-                        <p class="text-[10px] text-gray-500 mt-4 italic">Note: No online payment. Contact us on WhatsApp for booking confirmation.</p>
-                    </div>
-                    
-                    <button onclick="processBooking()" id="submitBtn" class="w-full py-5 bg-green-600 text-white font-black rounded-2xl shadow-xl hover:bg-green-500 transition uppercase text-xs tracking-widest flex items-center justify-center gap-2">
-                        <i class="fab fa-whatsapp text-lg"></i> Book via WhatsApp
-                    </button>
+                <div class="p-8 bg-yellow-600/5 text-center flex flex-col justify-center">
+                    <div id="total-price-display" class="text-5xl font-black gold-text mb-6">₹0</div>
+                    <button onclick="processBooking()" id="submitBtn" class="py-4 bg-green-600 text-white rounded-xl font-bold uppercase tracking-widest hover:bg-green-500 shadow-lg"><i class="fab fa-whatsapp"></i> Book Now</button>
                 </div>
             </div>
         </section>
-        <section id="gallery" class="py-24 px-6 container mx-auto">
-    <div class="flex flex-col items-center mb-16">
-        <h3 class="text-3xl font-bold gold-text italic tracking-widest">OUR MASTERPIECES</h3>
-        <div class="h-1 w-20 bg-yellow-600 mt-2"></div>
-        <p class="text-gray-500 text-xs mt-4 uppercase tracking-[3px]">हमारे द्वारा किए गए कुछ बेहतरीन काम</p>
-    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <div class="overflow-hidden rounded-3xl h-[300px] glass-card group">
-            <img src="https://scontent.fknu1-6.fna.fbcdn.net/v/t1.15752-9/624545369_776498668190903_4460289507285851226_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_ohc=Hl0kj2AzJJcQ7kNvwHAK2Dx&_nc_oc=Adl6pC5VBJjnHdB5DS6uRy8aq9eyhg36F7mO_4KA6Jzx47K-nCjpqAX4pSoWxtM12MY&_nc_zt=23&_nc_ht=scontent.fknu1-6.fna&oh=03_Q7cD4QGS3rXfE8-HGR57TaUrWxXJ4GVLFoUUvYZYVQ6LZzBbtA&oe=69A26CB2" 
-                 alt="Wedding Photography" 
-                 class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-
-        <div class="overflow-hidden rounded-3xl h-[300px] glass-card group">
-            <img src="https://scontent.fknu1-2.fna.fbcdn.net/v/t1.15752-9/618083628_1886015038947575_2688278330515647928_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=9f807c&_nc_ohc=YT17IjzJPOoQ7kNvwEkpSj8&_nc_oc=Adl5S3dHvw8MOKsPJnrD7egtQocLRY4BnNMxPRrf9v0fvKebF3Lc_Ey8JnaF6pyqvso&_nc_zt=23&_nc_ht=scontent.fknu1-2.fna&oh=03_Q7cD4QFPjXXltkIwaANKQrjrwCR2Uj-VYZxNo3wquAhhYEVPsw&oe=69A28A0B" 
-                 alt="Drone Shoot" 
-                 class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-
-        <div class="overflow-hidden rounded-3xl h-[300px] glass-card group">
-            <img src="https://scontent.fknu1-3.fna.fbcdn.net/v/t1.15752-9/621832833_915630767820448_2450677879053298511_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=9f807c&_nc_ohc=ceDEAmAeRbQQ7kNvwHv23Ae&_nc_oc=AdnJLd7WNxOIZzXyGft-KbwqB3hcHgUkcL5CieB7OBK5FG_v8xqyw3-6jkwZhMLHDHo&_nc_zt=23&_nc_ht=scontent.fknu1-3.fna&oh=03_Q7cD4QEn8RK0nvapHUQkItcsUVXKdTIM_IYOTSuONTIviislzg&oe=69A2937C" 
-                 alt="Cinematography" 
-                 class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-
-        <div class="overflow-hidden rounded-3xl h-[300px] glass-card group">
-            <img src="https://scontent.fknu1-1.fna.fbcdn.net/v/t1.15752-9/621792565_887876050556802_1225860602859819305_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=9f807c&_nc_ohc=lajxCJlM-y4Q7kNvwGHzC41&_nc_oc=AdnTiCGQn5qWS9NjOfMx110alCnSOhlVtxAQwA9KPiIgat6a-Pb3MOcgzCtqO6Uhc6I&_nc_zt=23&_nc_ht=scontent.fknu1-1.fna&oh=03_Q7cD4QEJ70ZCcuXU-VtrzK66p7UijXcsPpo7msHmsH244-_-Hw&oe=69A29021" 
-                 alt="Event Setup" 
-                 class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-
-        <div class="overflow-hidden rounded-3xl h-[300px] glass-card group">
-            <img src="https://scontent.fknu1-1.fna.fbcdn.net/v/t1.15752-9/618497569_893421973334967_8691581874707611433_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9f807c&_nc_ohc=d8firDxgx8wQ7kNvwED3K71&_nc_oc=AdkM5-FgrvFIwj2WDKcToptotMKVz76Dw178JAQknYWWlX5dxhYGA4VKfAtl6AvgrSQ&_nc_zt=23&_nc_ht=scontent.fknu1-1.fna&oh=03_Q7cD4QEopcS_mBQikHJvxQ6IONB3j7dQFqt209o5_l4X1d85AQ&oe=69A2611C" 
-                 alt="Karizma Album Sample" 
-                 class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-
-        <div class="overflow-hidden rounded-3xl h-[300px] glass-card group">
-            <img src="https://scontent.fknu1-2.fna.fbcdn.net/v/t1.15752-9/589843647_1349557669769387_2267771650123391295_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=9f807c&_nc_ohc=OpTMRGDUngwQ7kNvwEvCM9_&_nc_oc=AdmcTRBbYo9HtEeCtjjQbJKjrM8aZjbnc8Rde5dHcGC4IEFeTcH9VvKHyp8EKbNJ3vY&_nc_zt=23&_nc_ht=scontent.fknu1-2.fna&oh=03_Q7cD4QHOMN6sTzhCZXURUZ9I94m-jrs_HpCQz_EU09Z_vmpjqw&oe=69A281C3" 
-                 alt="Jai Prakash Studio Work" 
-                 class="gallery-img w-full h-full object-cover group-hover:scale-110 transition duration-500">
-        </div>
-
-    </div>
-</section>
-
-        <footer class="py-12 text-center text-gray-600">
-            <p class="text-sm">© 2026 JAI PRAKASH STUDIO - Dagmara Piprahi, Supaul</p>
-            <div class="mt-4 flex justify-center gap-6">
-                <a href="https://www.facebook.com/jay.prakash.712206" target="_blank" class="hover:text-blue-600 transition-all text-xl"><i class="fab fa-facebook"></i></a>
+        <section class="py-20 px-6 container mx-auto">
+            <h3 class="text-2xl font-bold gold-text text-center mb-12 italic tracking-[3px]">OUR RECENT WORK</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="rounded-[2rem] overflow-hidden h-72 glass-card">
+                    <img src="https://scontent.fknu1-6.fna.fbcdn.net/v/t1.15752-9/624545369_776498668190903_4460289507285851226_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_ohc=Hl0kj2AzJJcQ7kNvwHAK2Dx&_nc_oc=Adl6pC5VBJjnHdB5DS6uRy8aq9eyhg36F7mO_4KA6Jzx47K-nCjpqAX4pSoWxtM12MY&_nc_zt=23&_nc_ht=scontent.fknu1-6.fna&oh=03_Q7cD4QGS3rXfE8-HGR57TaUrWxXJ4GVLFoUUvYZYVQ6LZzBbtA&oe=69A26CB2" class="w-full h-full object-cover">
+                </div>
+                <div class="rounded-[2rem] overflow-hidden h-72 glass-card">
+                    <img src="https://scontent.fknu1-2.fna.fbcdn.net/v/t1.15752-9/618083628_1886015038947575_2688278330515647928_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=9f807c&_nc_ohc=YT17IjzJPOoQ7kNvwEkpSj8&_nc_oc=Adl5S3dHvw8MOKsPJnrD7egtQocLRY4BnNMxPRrf9v0fvKebF3Lc_Ey8JnaF6pyqvso&_nc_zt=23&_nc_ht=scontent.fknu1-2.fna&oh=03_Q7cD4QFPjXXltkIwaANKQrjrwCR2Uj-VYZxNo3wquAhhYEVPsw&oe=69A28A0B" class="w-full h-full object-cover">
+                </div>
+                <div class="rounded-[2rem] overflow-hidden h-72 glass-card">
+                    <img src="https://scontent.fknu1-3.fna.fbcdn.net/v/t1.15752-9/621832833_915630767820448_2450677879053298511_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=9f807c&_nc_ohc=ceDEAmAeRbQQ7kNvwHv23Ae&_nc_oc=AdnJLd7WNxOIZzXyGft-KbwqB3hcHgUkcL5CieB7OBK5FG_v8xqyw3-6jkwZhMLHDHo&_nc_zt=23&_nc_ht=scontent.fknu1-3.fna&oh=03_Q7cD4QEn8RK0nvapHUQkItcsUVXKdTIM_IYOTSuONTIviislzg&oe=69A2937C" class="w-full h-full object-cover">
+                </div>
             </div>
+        </section>
+        
+        <footer class="py-10 text-center text-gray-500 border-t border-white/5">
+            <p>© 2026 JAI PRAKASH STUDIO - Dagmara, Supaul</p>
         </footer>
     </div>
 
-    <div id="admin-ui" class="admin-view p-6 md:p-12">
-        <div class="max-w-6xl mx-auto">
-            <header class="flex justify-between items-end mb-12">
-                <div><h2 class="text-3xl font-black">ADMIN <span class="text-blue-600">PANEL</span></h2></div>
-                <button onclick="location.reload()" class="bg-slate-800 text-white px-6 py-2 rounded-full font-bold">LOGOUT</button>
-            </header>
-            <div class="bg-white rounded-[30px] shadow-xl overflow-hidden p-6">
+    <div id="admin-ui" class="admin-view p-8">
+        <div class="max-w-6xl mx-auto bg-white rounded-[2rem] p-8 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-2xl font-black text-slate-800 uppercase tracking-tighter">System <span class="text-blue-600">Admin</span></h2>
+                <button onclick="location.reload()" class="bg-red-500 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-red-600">LOGOUT</button>
+            </div>
+            <div class="overflow-x-auto">
                 <table class="w-full text-left">
-                    <thead class="text-slate-400 text-[10px] uppercase"><tr><th class="p-4">Client</th><th class="p-4">Date</th><th class="p-4">Service</th><th class="p-4">Status</th></tr></thead>
+                    <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold border-b">
+                        <tr>
+                            <th class="p-5">Name</th>
+                            <th class="p-5">Phone</th>
+                            <th class="p-5">Address</th>
+                            <th class="p-5">Service</th>
+                            <th class="p-5">Print</th>
+                        </tr>
+                    </thead>
                     <tbody id="admin-data-list"></tbody>
                 </table>
-                <div id="admin-loader" class="text-center py-10">Loading Cloud Data...</div>
             </div>
+            <div id="admin-loader" class="text-center py-20 font-bold text-slate-300">Syncing Cloud Database...</div>
+        </div>
+    </div>
+
+    <div id="print-area" class="hidden">
+        <center>
+            <h1 style="font-size: 30px; font-weight: 900; color: black; margin-bottom: 0;">JAI PRAKASH STUDIO</h1>
+            <p style="color: black; margin-top: 5px;">Mob: 9102084493 | Dagmara Piprahi, Supaul</p>
+            <hr style="border: 1px solid black; margin: 20px 0;">
+            <h2 style="font-weight: 800; text-decoration: underline;">BOOKING INVOICE</h2>
+        </center>
+        <div style="margin-top: 40px; font-size: 19px; line-height: 2.5; color: black;">
+            <p><strong>Client Name:</strong> <span id="p-name"></span></p>
+            <p><strong>Contact:</strong> <span id="p-phone"></span></p>
+            <p><strong>Shoot Date:</strong> <span id="p-date"></span></p>
+            <p><strong>Address:</strong> <span id="p-address"></span></p>
+            <p><strong>Service:</strong> <span id="p-service"></span></p>
+        </div>
+        <div style="margin-top: 80px; text-align: right;">
+            <p>___________________</p>
+            <p>Authorized Signature</p>
         </div>
     </div>
 
     <script>
         let selectedService = "";
-        const CLOUD_URL = 'https://script.google.com/macros/s/AKfycbzghyB23zes8qes4KG6UjHMc6xy38aOEGJTK7_GqxqOdoeBy3SLkd3WYfm5PdZv98QL/exec';
+        const CLOUD_URL = 'https://script.google.com/macros/s/AKfycbx_zbnIzfEVGr5cu_qMSndckI9nuYyw7UGHZL9wBHuvUAVnDka5fMqida46-lse4B0/exec';
 
-        // Price Update Function
         function updatePriceDisplay(name, price) {
             selectedService = name;
-            document.getElementById('selected-svc-name').innerText = name;
             document.getElementById('total-price-display').innerText = "₹" + price.toLocaleString();
-            
-            const display = document.getElementById('total-price-display');
-            display.style.transform = "scale(1.1)";
-            setTimeout(() => { display.style.transform = "scale(1)"; }, 200);
         }
 
-        // WhatsApp & Cloud Booking
         async function processBooking() {
             const name = document.getElementById('cust_name').value;
             const date = document.getElementById('cust_date').value;
             const phone = document.getElementById('cust_phone').value;
-            const btn = document.getElementById('submitBtn');
+            const address = document.getElementById('cust_address').value;
 
-            if(!name || !date || !phone || !selectedService) {
-                alert("कृपया पूरी जानकारी भरें!");
-                return;
+            if(!name || !date || !phone || !address || !selectedService) {
+                alert("Please fill all information!"); return;
             }
 
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> SAVING DATA...`;
+            const payload = { name, date, service: selectedService, phone, address };
+            await fetch(CLOUD_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
 
-            const payload = { name, date, service: selectedService, phone };
-
-            try {
-                // Save to Google Cloud
-                await fetch(CLOUD_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    cache: 'no-cache',
-                    body: JSON.stringify(payload)
-                });
-
-                // Generate WhatsApp Link
-                const msg = `*NEW BOOKING JAI PRAKASH STUDIO*%0A------------------%0A*Client:* ${name}%0A*Date:* ${date}%0A*Phone:* ${phone}%0A*Service:* ${selectedService}%0A------------------%0A_Please confirm my booking._`;
-                
-                setTimeout(() => {
-                    window.open(`https://wa.me/919102084493?text=${msg}`, '_blank');
-                    location.reload();
-                }, 1000);
-
-            } catch (err) {
-                console.error(err);
-                alert("Server Error. Redirecting to WhatsApp...");
-                window.open(`https://wa.me/919102084493?text=Emergency Booking: ${name}`, '_blank');
-            }
+            const msg = `*NEW BOOKING*%0A*Name:* ${name}%0A*Date:* ${date}%0A*Phone:* ${phone}%0A*Address:* ${address}%0A*Service:* ${selectedService}`;
+            window.open(`https://wa.me/919102084493?text=${msg}`, '_blank');
+            location.reload();
         }
 
         function openAdmin() {
-            const p = prompt("Admin Password:");
-            if(p === "Jp@123") {
+            if(prompt("Enter Access Password:") === "Jp@123") {
                 document.getElementById('client-ui').style.display = 'none';
                 document.getElementById('admin-ui').style.display = 'block';
                 fetchFromServer();
-            } else { alert("Access Denied!"); }
+            }
         }
 
         async function fetchFromServer() {
-            const list = document.getElementById('admin-data-list');
-            const loader = document.getElementById('admin-loader');
             try {
                 const response = await fetch(CLOUD_URL);
                 const data = await response.json();
-                loader.style.display = "none";
-                list.innerHTML = data.map(b => `
-                    <tr class="border-b">
-                        <td class="p-4 font-bold uppercase text-[10px]">${b.name}</td>
-                        <td class="p-4 text-xs">${b.date}</td>
-                        <td class="p-4"><span class="bg-blue-50 text-blue-600 px-2 py-1 rounded text-[9px] font-bold">${b.service}</span></td>
-                        <td class="p-4 text-green-500 text-[9px] font-bold italic">Cloud Saved</td>
+                document.getElementById('admin-loader').style.display = 'none';
+                document.getElementById('admin-data-list').innerHTML = data.map(b => `
+                    <tr class="border-b text-[12px] hover:bg-slate-50 transition">
+                        <td class="p-5 font-bold uppercase text-slate-800">${b.name}</td>
+                        <td class="p-5 font-bold text-blue-600">${b.phone || 'N/A'}</td>
+                        <td class="p-5 text-slate-500 italic">${b.address || 'N/A'}</td>
+                        <td class="p-5 font-black text-yellow-600 uppercase">${b.service}</td>
+                        <td class="p-5">
+                            <button onclick="printInvoice('${b.name}', '${b.phone}', '${b.date}', '${b.address}', '${b.service}')" class="bg-black text-white px-4 py-1.5 rounded-lg font-bold shadow-md">PRINT</button>
+                        </td>
                     </tr>
                 `).reverse().join('');
-            } catch (e) { loader.innerText = "Error loading data."; }
+            } catch (e) { document.getElementById('admin-loader').innerText = "Database Sync Error!"; }
+        }
+
+        function printInvoice(name, phone, date, address, service) {
+            document.getElementById('p-name').innerText = name;
+            document.getElementById('p-phone').innerText = phone;
+            document.getElementById('p-date').innerText = date;
+            document.getElementById('p-address').innerText = address;
+            document.getElementById('p-service').innerText = service;
+            window.print();
         }
     </script>
 </body>
